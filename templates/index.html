@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<!-- Link mapbox draw js and css -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.0/mapbox-gl-draw.css" type="text/css"/>
+<!-- Link to mapbox geocoder plugin -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css" type="text/css" />
+{% endblock %}
+
+{% block menu %}
+
+<div class="modal fade" id="modalForm1" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Register</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <form method="post" action="/register" name="register_form">
+            <div class="md-form mb-5">
+                <i class="fas fa-user prefix grey-text"></i>
+                <input type="text" id="regForm-name" class="form-control validate" name="username" required>
+                <label data-error="wrong" data-success="right" for="regForm-name">Your name</label>
+            </div>
+            <div class="md-form mb-5">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <input type="email" id="regForm-email" class="form-control validate" name="email" required>
+                <label data-error="wrong" data-success="right" for="regForm-email">Your email</label>
+            </div>
+            <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <input type="password" id="regForm-pass" class="form-control validate" name="password" required> 
+                <label data-error="wrong" data-success="right" for="regForm-pass">Your password</label>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-deep-orange">Sign up</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalForm2" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold">Log In</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body mx-3">
+            <form method="get" action="/login" name="login_form">
+              <div class="md-form mb-5">
+                  <i class="fas fa-envelope prefix grey-text"></i>
+                  <input type="email" id="loginForm-email" class="form-control validate" name="emailLogin" required>
+                  <label data-error="wrong" data-success="right" for="loginForm-email">Your email</label>
+              </div>
+              <div class="md-form mb-4">
+                  <i class="fas fa-lock prefix grey-text"></i>
+                  <input type="password" id="loginForm-pass" class="form-control validate" name="passwordLogin" required>
+                  <label data-error="wrong" data-success="right" for="loginForm-pass">Your password</label>
+              </div>
+              <div class="modal-footer d-flex justify-content-center">
+                  <button type="submit" class="btn">Login</button>
+              </div>
+            </form>
+          </div>
+      </div>
+        
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block navlinks %}
+{% if current_user.is_authenticated %}
+<li class="nav-item">
+<a class="nav-link" href="/user">Saved Routes</a>
+</li>
+<li class="nav-item">   
+<a class="nav-link" href="/logout">Log Out</a>
+</li>
+{% else %}
+<li class="nav-item">
+<a class="nav-link" href="" data-toggle="modal" data-target="#modalForm1">Register</a>
+</li>
+<li class="nav-item">   
+<a class="nav-link" href="" data-toggle="modal" data-target="#modalForm2">Log In</a>
+</li>
+{% endif %}
+{% endblock %}
+
+{% block mapcontent %}
+
+{% if current_user.is_authenticated %}
+<div class="modal fade" id="routeModal" tabindex="-1" role="dialog" aria-labelledby="routeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" id="routeDialog" role="document">
+    <div class="modal-content">
+      <button type="button" id="saveroute" class="btn">Save this route</button>
+    </div>
+  </div>
+</div>
+{% endif %}
+<div class="info-box">  
+    <div id="distance"></div>
+    <div id="duration"></div>
+    <div id="violent-crime-count"></div>
+</div>
+  
+<div class="control-panel">
+  <div class="buttons">
+    <button class="btn" id="get-location"><i class="fas fa-street-view"></i></button>
+    <button class="btn" id="get-direction">Get direction</button> <br>
+    <button class="btn" id="get-start">Enter a different starting point</button> <br>
+    <button class="btn" id="clear-route">Clear direction</button> <br>
+    <button class="btn" id="get-alt">Get alternative routes</button>
+  </div>
+</div>
+
+<div class="navigation"></div>
+
+<div id='hiddenInfo'></div>
+
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript' src="/static/script.js"></script>
+{% endblock%}

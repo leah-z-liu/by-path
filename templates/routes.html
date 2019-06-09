@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block navlinks %}
+<li class="nav-item">   
+    <a class="nav-link" href="/logout">Log Out</a>
+</li>
+{% endblock %}
+
+
+{% block mapcontent %}
+<div class="modal fade" id="routeModal" tabindex="-1" role="dialog" aria-labelledby="routeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="routeDialog" role="document">
+      <div class="modal-content">
+        <button type="button" id="get-nav" class="btn">Get Navigation</button>
+        <button type="button" id="del-route" class="btn">Delete Route</button>
+      </div>
+    </div>
+</div>
+
+<div class="control-panel routes-page">
+  <button class="btn" id="clear-nav">Clear Navigation</button> <br>
+</div>
+
+<div class="navigation"></div>
+
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+const r_ids = '{{ r_id|tojson }}';
+const routes = '{{ routes|tojson }}';
+</script>
+<script type='text/javascript' src="/static/routes.js"></script>
+{% endblock%}
