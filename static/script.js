@@ -446,7 +446,6 @@ function addRoute (coords) {
         map.removeLayer('route')
         map.removeSource('route')
     }
-    map.setZoom(13);
     map.addLayer({
     "id": "route",
     "type": "line",
@@ -474,6 +473,21 @@ function addRoute (coords) {
     }
     const route = new_arr.join(',');
     $('#hiddenInfo').attr('data-route', route);
+    fitBounds(coords.coordinates);
+}
+
+// fit bounds to the route
+function fitBounds(coords) {
+    // Pass the first coordinates in the LineString to `lngLatBounds` &
+    // wrap each coordinate pair in `extend` to include them in the bounds
+    // result. 
+    let bounds = coords.reduce((bounds, coord) => {
+        return bounds.extend(coord);
+    }, new mapboxgl.LngLatBounds(coords[0], coords[0]));
+
+    map.fitBounds(bounds, {
+        padding: 20
+    })
 }
 
 
@@ -497,6 +511,7 @@ $('#saveroute').on('click', () => {
 // remove the layer if it exists
 function removeRoute () {
     if (map.getSource('route')) {
+        map.setZoom(11);
         map.setLayoutProperty('crimes-heat', 'visibility', 'visible');
         end.clear();
         marker.remove();

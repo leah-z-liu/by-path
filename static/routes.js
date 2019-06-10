@@ -147,7 +147,6 @@ function getCoords(fRoute) {
 // adds the route as a layer on the map
 function addRoute(coords) {
 
-    map.setZoom(11);
     map.addLayer({
     "id": "route",
     "type": "line",
@@ -200,7 +199,7 @@ function addRoute(coords) {
 function getNav(coords) {
 
     // set profile
-    let profile = 'walking';
+    const profile = 'walking';
     const radius = [];
     // set radius for each point
     coords.forEach( coord => {
