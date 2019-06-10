@@ -59,7 +59,7 @@
 .control-panel {
   width: 150px;
   position: absolute;
-  top: 60px;
+  top: 100px;
   left: 260px;
   padding: 5px;
   text-align: center;
@@ -71,7 +71,7 @@
   position: absolute;
   padding: 5px;
   z-index: 4;
-  top: 80px;
+  top: 100px;
   left: 10px;
 }
 
@@ -91,7 +91,7 @@
   color: rgb(243, 239, 239);
 }
 
-#get-alt {
+.toggle {
   display: none;
 }
 

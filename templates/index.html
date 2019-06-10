@@ -24,18 +24,18 @@
           <form method="post" action="/register" name="register_form">
             <div class="md-form mb-5">
                 <i class="fas fa-user prefix grey-text"></i>
-                <input type="text" id="regForm-name" class="form-control validate" name="username" required>
                 <label data-error="wrong" data-success="right" for="regForm-name">Your name</label>
+                <input type="text" id="regForm-name" class="form-control validate" name="username" required>
             </div>
             <div class="md-form mb-5">
                 <i class="fas fa-envelope prefix grey-text"></i>
-                <input type="email" id="regForm-email" class="form-control validate" name="email" required>
                 <label data-error="wrong" data-success="right" for="regForm-email">Your email</label>
+                <input type="email" id="regForm-email" class="form-control validate" name="email" required>
             </div>
             <div class="md-form mb-4">
                 <i class="fas fa-lock prefix grey-text"></i>
-                <input type="password" id="regForm-pass" class="form-control validate" name="password" required> 
                 <label data-error="wrong" data-success="right" for="regForm-pass">Your password</label>
+                <input type="password" id="regForm-pass" class="form-control validate" name="password" required> 
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button type="submit" class="btn btn-deep-orange">Sign up</button>
@@ -59,13 +59,13 @@
             <form method="get" action="/login" name="login_form">
               <div class="md-form mb-5">
                   <i class="fas fa-envelope prefix grey-text"></i>
-                  <input type="email" id="loginForm-email" class="form-control validate" name="emailLogin" required>
                   <label data-error="wrong" data-success="right" for="loginForm-email">Your email</label>
+                  <input type="email" id="loginForm-email" class="form-control validate" name="emailLogin" required>
               </div>
               <div class="md-form mb-4">
                   <i class="fas fa-lock prefix grey-text"></i>
-                  <input type="password" id="loginForm-pass" class="form-control validate" name="passwordLogin" required>
                   <label data-error="wrong" data-success="right" for="loginForm-pass">Your password</label>
+                  <input type="password" id="loginForm-pass" class="form-control validate" name="passwordLogin" required>
               </div>
               <div class="modal-footer d-flex justify-content-center">
                   <button type="submit" class="btn">Login</button>
@@ -82,7 +82,7 @@
 {% block navlinks %}
 {% if current_user.is_authenticated %}
 <li class="nav-item">
-<a class="nav-link" href="/user">Saved Routes</a>
+<a class="nav-link" href="/user">Favorite Route</a>
 </li>
 <li class="nav-item">   
 <a class="nav-link" href="/logout">Log Out</a>
@@ -99,11 +99,11 @@
 
 {% block mapcontent %}
 
-{% if current_user.is_authenticated %}
+{% if current_user.is_authenticated and not current_user.routes %}
 <div class="modal fade" id="routeModal" tabindex="-1" role="dialog" aria-labelledby="routeModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="routeDialog" role="document">
     <div class="modal-content">
-      <button type="button" id="saveroute" class="btn">Save this route</button>
+      <button type="button" id="saveroute" class="btn">Save As Favorite</button>
     </div>
   </div>
 </div>
@@ -116,11 +116,13 @@
   
 <div class="control-panel">
   <div class="buttons">
-    <button class="btn" id="get-location"><i class="fas fa-street-view"></i></button>
-    <button class="btn" id="get-direction">Get direction</button> <br>
-    <button class="btn" id="get-start">Enter a different starting point</button> <br>
-    <button class="btn" id="clear-route">Clear direction</button> <br>
-    <button class="btn" id="get-alt">Get alternative routes</button>
+    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Click to use current location">
+        <button class="btn" id="get-location"><i class="fas fa-street-view"></i></button>
+    </span>
+    <button class="btn" id="get-start">Enter a starting point</button> <br>
+    <button class="btn toggle" id="get-direction">Get direction</button> <br>
+    <button class="btn toggle" id="clear-route">Clear direction</button> <br>
+    <button class="btn toggle" id="get-alt">Get alternative routes</button>
   </div>
 </div>
 

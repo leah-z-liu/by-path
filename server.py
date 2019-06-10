@@ -42,14 +42,14 @@ def index():
 @app.route('/user')
 @login_required
 def show_routes():
-    """ Display saved routes."""
+    """ Display saved route."""
 
     user_id = current_user.id
-    r_id = db.session.query(Route.r_id).join(User).filter(User.id==user_id).all()
-    routes = db.session.query(Route.route).join(User).filter(User.id==user_id).all()
+    r_id = db.session.query(Route.r_id).join(User).filter(User.id==user_id).first()
+    route = db.session.query(Route.route).join(User).filter(User.id==user_id).first()
 
-    return render_template('routes.html', r_id = r_id,
-                                          routes=routes)
+    return render_template('routes.html', r_id=r_id,
+                                          route=route)
 
 @app.route('/register', methods=["POST"])
 def register():
@@ -109,7 +109,7 @@ def save_route(route):
 
     flash('Your route has been saved.')
     
-    return redirect('/user')
+    return redirect('/')
 
 @app.route('/deleteroute/<del_id>', methods=["POST"])
 @login_required

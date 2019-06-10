@@ -26,6 +26,11 @@ const marker = new mapboxgl.Marker({
     draggable: true
 })
 
+// initialize tooltips
+$(() => {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
 // add geolocate tool
 $('#get-location').on('click', () => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -108,14 +113,18 @@ let popup = new mapboxgl.Popup({
 map.addControl(end, 'top-left');
 
 // add the draw tool to the map
-map.addControl(draw);
+map.addControl(draw, 'bottom-left');
 
+
+// save destination information
 end.on('result', function (evt) {
     const response = evt.result;
     const coords = response.center.join(',');
     $('#hiddenInfo').attr('data-destination', coords);
+    $('#get-direction').show();
 })
 
+// save starting point information
 $('#get-start').on('click', () => {
     marker.remove();
     map.addControl(start, 'top-left');
@@ -125,6 +134,7 @@ $('#get-start').on('click', () => {
         $('#hiddenInfo').attr('data-start', coords);
     })
 })
+
 
 // load data and base map
 map.on('load', function(){
@@ -242,13 +252,18 @@ map.on('load', function(){
     })
 })
 
-
+// get direction on click
 $('#get-direction').on('click', () => {
     removeRoute();
     const startCoords = $('#hiddenInfo').data('start');
     const endCoords = $('#hiddenInfo').data('destination');
     const route = [startCoords, endCoords].join(';');
-    getMatch(route);
+    if (!startCoords || !endCoords) {
+        alert("Please set both starting point and destination.")
+    } else {
+        $('#clear-route').show();
+        getMatch(route);
+    }
 })
 
 
@@ -431,7 +446,6 @@ function addRoute (coords) {
         map.removeLayer('route')
         map.removeSource('route')
     }
-    console.log(coords);
     map.setZoom(13);
     map.addLayer({
     "id": "route",
@@ -491,15 +505,15 @@ function removeRoute () {
         map.removeSource('route');
         map.removeLayer('crimes-buffer');
         map.removeSource('buffer');
+        $('#clear-route').hide();
         $('.info-box').hide();
         $('.navigation').hide();
         $('#violent-crime-count').hide();
         $('#get-alt').hide();
-        $('#distance').text('');
-        $('#duration').text('');
-        $('.navigation').text('');
-        $('#hiddenInfo').attr('data-start', '');
-        $('#hiddenInfo').attr('data-destination', '');
+        $('#hiddenInfo').removeAttr('data-start');
+        $('#hiddenInfo').removeData('start')
+        $('#hiddenInfo').removeAttr('data-destination');
+        $('#hiddenInfo').removeData('destination');
         map.removeControl(start);
     } else  {
         return;

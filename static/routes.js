@@ -8,12 +8,13 @@ const map = new mapboxgl.Map({
   zoom: 13
 });
 
-const formattedRoutes = inputCleanup(routes);
-const formattedIds = inputCleanup(r_ids);
+const formattedRoute = inputCleanup(route);
+const formattedId = inputCleanup(r_id);
 
 //load heatmap
 map.on('load', function(){
-    getCoords(formattedRoutes, formattedIds);
+
+    getCoords(formattedRoute);
 
     $.getJSON('/api/incidents', response => {
         map.addSource('crimes', {
@@ -128,30 +129,27 @@ map.on('load', function(){
     })
 })
 
-function getCoords(routes, r_ids) {
+function getCoords(fRoute) {
 
-    for (let i = 0; i < routes.length; i++) {
-        route = routes[i];
-        r_id = r_ids[i];
-        let coords = {
-            coordinates: [],
-            type: 'LineString'
-        };
-        const waypoints = route.split(',');
-        for (let waypoint of waypoints) {
-            const lngLat = waypoint.split(' ');
-            coords.coordinates.push(lngLat);
-        }
-        addRoute(coords, r_id.toString());
+    let coords = {
+        coordinates: [],
+        type: 'LineString'
     }
+    
+    const waypoints = fRoute.split(',');
+    for (let waypoint of waypoints) {
+        const lngLat = waypoint.split(' ');
+        coords.coordinates.push(lngLat);
+    }
+    addRoute(coords);
 }
 
 // adds the route as a layer on the map
-function addRoute(coords, id) {
+function addRoute(coords) {
 
     map.setZoom(11);
     map.addLayer({
-    "id": id,
+    "id": "route",
     "type": "line",
     "source": {
         "type": "geojson",
@@ -171,15 +169,15 @@ function addRoute(coords, id) {
         "line-opacity": 0.8
     }
     });
-    
-     // show options to get direction or delete current route
-     map.on('click', id, () => {
+
+    // show options to get direction or delete current route
+    map.on('click', "route", () => {
         $('#routeModal').modal('show');
     })
 
     // delete route on click
     $('#del-route').on('click', () => {
-        $.post('/deleteroute/' + id)
+        $.post('/deleteroute/' + formattedId)
         .done(
             () => {
                 location.reload(true);
@@ -191,23 +189,15 @@ function addRoute(coords, id) {
 
     // get direction on click
     $('#get-nav').on('click',() => {
+        $('#routeModal').modal('hide');
         $('#clear-nav').show();
-        getNav(coords.coordinates, id);
+        getNav(coords.coordinates);
         fitBounds(coords.coordinates);
     })
 }
 
 // get navigation for route
-function getNav(coords, r_id) {
-
-    // remove other route layers
-    for (let one of formattedIds) {
-        if (one !== r_id) {
-            map.setLayoutProperty(one, 'visibility', 'none');
-        } else {
-            map.setLayoutProperty(one, 'visibility', 'visible');
-        }
-    }
+function getNav(coords) {
 
     // set profile
     let profile = 'walking';
@@ -235,12 +225,9 @@ $('#clear-nav').on('click', () => {
 })
 // clear current navigation and display back all routes
 function clearNav() {
-    map.setZoom(15);
+    map.setZoom(12);
     $('.navigation').text('');
     $('.navigation').hide();
-    formattedIds.forEach(id => {
-        map.setLayoutProperty(id, 'visibility', 'visible');
-    })
     $('#clear-nav').hide();
 }
 
@@ -253,7 +240,6 @@ function fitBounds(coords) {
         return bounds.extend(coord);
     }, new mapboxgl.LngLatBounds(coords[0], coords[0]));
 
-
     map.fitBounds(bounds, {
         padding: 20
     })
@@ -261,11 +247,9 @@ function fitBounds(coords) {
 
 // turn input string into formatted array
 function inputCleanup(str) {
-    const arr = str.split('], ');
-    let formatted = [];
-    for (let one of arr) {
-        formatted.push(one.replace(/[\[\]\"]/g, ''));
-    }
+
+    const formatted = str.replace(/[\[\]\"]/g, '');
+    
     return formatted;
 }
 
