@@ -1,6 +1,7 @@
-# ByPath
 
 ![ByPath Logo](static/img/logo_cover.png)
+
+# ByPath
 
 ByPath is a navigation app that displays an interactive San Francisco crime heat map and selects a safer walking or biking route for users. It also allows users to draw their own routes and save their regular commute.
 
