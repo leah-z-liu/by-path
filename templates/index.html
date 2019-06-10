@@ -21,11 +21,14 @@
           </button>
         </div>
         <div class="modal-body mx-3">
-          <form method="post" action="/register" name="register_form">
+          <form method="post" action="/register" name="register_form" class="needs-validation">
             <div class="md-form mb-5">
                 <i class="fas fa-user prefix grey-text"></i>
-                <label data-error="wrong" data-success="right" for="regForm-name">Name</label>
-                <input type="text" id="regForm-name" class="form-control validate" name="username" required>
+                <label for="regForm-name">Name</label>
+                <input type="text" id="regForm-name" class="form-control validate" name="username" pattern="[A-Za-z0-9]{1,15}" required>
+                <div class="invalid-feedback">
+                    Please enter a username with only letters and/or numbers.
+                </div>
             </div>
             <div class="md-form mb-5">
                 <i class="fas fa-envelope prefix grey-text"></i>
@@ -35,7 +38,10 @@
             <div class="md-form mb-4">
                 <i class="fas fa-lock prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="regForm-pass">Password</label>
-                <input type="password" id="regForm-pass" class="form-control validate" name="password" required> 
+                <input type="password" id="regForm-pass" class="form-control validate" name="password" patter="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*20" required> 
+                <div class="invalid-feedback">
+                    Valid password cannot exceed 20 characters and can only contain letters and numbers.
+                </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button type="submit" class="btn btn-deep-orange">Sign up</button>
