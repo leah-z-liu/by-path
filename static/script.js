@@ -3,7 +3,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGVhaGxpdTc3OSIsImEiOiJjanV6MnVkYW0wMTBmNGVtM
 
 const map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/leahliu779/cjw5ehrfg2s3y1cnryib5ekzx',
+  style: 'mapbox://styles/leahliu779/cjwsj480y555v1cqu6pxp0647',
   center: [-122.4194, 37.7749],
   zoom: 11
 });
@@ -54,6 +54,7 @@ $('#get-location').on('click', () => {
         });
     })
 })
+
 
 // add draw tool plugin
 const draw = new MapboxDraw({
@@ -121,6 +122,7 @@ end.on('result', function (evt) {
     const response = evt.result;
     const coords = response.center.join(',');
     $('#hiddenInfo').attr('data-destination', coords);
+    $('#get-start').show();
     $('#get-direction').show();
 })
 
@@ -133,6 +135,7 @@ $('#get-start').on('click', () => {
         const coords = response.center.join(',');
         $('#hiddenInfo').attr('data-start', coords);
     })
+    $('#get-start').hide();
 })
 
 
@@ -161,7 +164,7 @@ map.on('load', function(){
                     ["linear"],
                     ["get", "incident_code"],
                     0, 0,
-                    30, 1
+                    30, 5
                 ],
                 // increase intensity as zoom level increases
                 'heatmap-intensity': {
@@ -175,11 +178,11 @@ map.on('load', function(){
                     'interpolate',
                     ['linear'],
                     ['heatmap-density'],
-                    0, 'rgba(236,222,239,0)',
-                    0.2, '#B9B0FF',
-                    0.4, '#9486EB',
-                    0.6, '#8A73FF',
-                    0.8, '#5F32FF'
+                    0, 'rgba(33,102,172,0)',
+                    0.2, '#EBEA97',
+                    0.4, '#FFFE8B',
+                    0.6, '#E8DA74',
+                    0.8, '#FFE380'
                 ],
                 // increase radius as zoom increases
                 'heatmap-radius': {
@@ -501,6 +504,8 @@ $('#saveroute').on('click', () => {
         .done(
             () => {
                 $('#routeModal').modal('hide');
+                $('#alert-msg').text('Your route has been saved.');
+                $('#alertModal').modal('show');
             })
         .fail(function(jqxhr, settings, ex) {
             alert('Error:', ex);
@@ -515,6 +520,7 @@ function removeRoute () {
         map.setLayoutProperty('crimes-heat', 'visibility', 'visible');
         end.clear();
         marker.remove();
+        $('#get-start').hide();
         map.removeLayer('route');
         map.removeSource('route');
         map.removeLayer('crimes-buffer');
@@ -539,26 +545,3 @@ map.on('draw.create', updateRoute);
 map.on('draw.update', updateRoute);
 map.on('draw.delete', removeRoute);
 
-// form validation for register
-// $('#needs-validation').on('submit', () => {
-//     if ($('#needs-validation').checkValidity() === false) {
-//         event.preventDefault();
-//         event.stopPropagation();
-//     }
-//     $('#needs-validation').classList.add('was-validated');
-// })
-
-window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        form.classList.add('was-validated');
-        }, false);
-    });
-}, false);

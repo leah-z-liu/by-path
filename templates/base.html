@@ -3,7 +3,8 @@
 <header>
     <meta charset="utf-8" />
     <title>{% block title %} ByPath -- find a safer path {% endblock %}</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="icon" href="static/img/favicon.png">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <!-- Link google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Viga" rel="stylesheet"> 
     <!-- Link jQuery -->
@@ -27,7 +28,7 @@
     <div id="nav-wrapper" class="wrapper">
         {% block menu %}
         {% endblock %}
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-md">
                 <a class="navbar-brand" href="/">ByPath</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggel navbar">
                     <span class="navbar-toggler-icon"></span>
@@ -44,18 +45,71 @@
         </nav>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <ul class=flashes>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-                </ul>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             {% endif %}
         {% endwith %}
+        <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+            <div class="modal-dialog" id="alertDialog" role="document">
+                <div class="modal-content">
+                <p id="alert-msg"></p>
+                </div>
+            </div>
+        </div>
     </div>
     
 
     <div id="map-wrapper" class="wrapper">
         <div id="map"></div>
+        <div class="toggle_wrapper">
+            <button class="hr_btn d-block d-sm-none" type="button" data-toggle="collapse" data-target="#hourCollapse" aria-expanded="false" aria-controls="hourToggle">
+                Hour
+            </button>
+            <div class="collapse dont-collapse-sm" id="hourCollapse">
+                <div class="toggle_radio" data-toggle="tooltip" title="Choose to see how safe your route is within the hour.">
+                <input type="radio" value="1" class="toggle_option" id="hour1" name="toggle_option">
+                <input type="radio" value="2" class="toggle_option" id="hour2" name="toggle_option">
+                <input type="radio" value="3" class="toggle_option" id="hour3" name="toggle_option">
+                <input type="radio" value="4" class="toggle_option" id="hour4" name="toggle_option">
+                <input type="radio" value="5" class="toggle_option" id="hour5" name="toggle_option">
+                <input type="radio" value="6" class="toggle_option" id="hour6" name="toggle_option">
+                <input type="radio" value="7" class="toggle_option" id="hour7" name="toggle_option">
+                <input type="radio" value="8" class="toggle_option" id="hour8" name="toggle_option">
+                <input type="radio" value="9" class="toggle_option" id="hour9" name="toggle_option">
+                <input type="radio" value="10" class="toggle_option" id="hour10" name="toggle_option">
+                <input type="radio" value="11" class="toggle_option" id="hour11" name="toggle_option">
+                <input type="radio" value="12" class="toggle_option" id="hour12" name="toggle_option">
+                <label for="hour1"><p>1:00</p></label>
+                <label for="hour2"><p>2:00</p></label>
+                <label for="hour3"><p>3:00</p></label>
+                <label for="hour4"><p>4:00</p></label>
+                <label for="hour5"><p>5:00</p></label>
+                <label for="hour6"><p>6:00</p></label>
+                <label for="hour7"><p>7:00</p></label>
+                <label for="hour8"><p>8:00</p></label>
+                <label for="hour9"><p>9:00</p></label>
+                <label for="hour10"><p>10:00</p></label>
+                <label for="hour11"><p>11:00</p></label>
+                <label for="hour12"><p>12:00</p></label>
+                <div class="toggle_option_slider"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ampm_wrapper">
+                <div class="toggle_ampm">
+                  <input type="radio" value="am" class="toggle_option" id="am" name="ampm">
+                  <input type="radio" value="pm" class="toggle_option" id="pm" name="ampm">
+                  <label for="am"><p>AM</p></label>
+                  <label for="pm"><p>PM</p></label>
+                  <div class="ampm_slider"></div>
+                </div>
+        </div>
         {% block mapcontent %}
         {% endblock %}
         {% block script %}   

@@ -13,7 +13,7 @@
 
 <div class="modal fade" id="modalForm1" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content modal-backgroud">
         <div class="modal-header text-center">
           <h4 class="modal-title w-100 font-weight-bold">Register</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -21,14 +21,11 @@
           </button>
         </div>
         <div class="modal-body mx-3">
-          <form method="post" action="/register" name="register_form" class="needs-validation">
+          <form method="post" action="/register" class="needs-validation" name="register_form">
             <div class="md-form mb-5">
                 <i class="fas fa-user prefix grey-text"></i>
                 <label for="regForm-name">Name</label>
-                <input type="text" id="regForm-name" class="form-control validate" name="username" pattern="[A-Za-z0-9]{1,15}" required>
-                <div class="invalid-feedback">
-                    Please enter a username with only letters and/or numbers.
-                </div>
+                <input type="text" id="regForm-name" class="form-control" name="username" required>
             </div>
             <div class="md-form mb-5">
                 <i class="fas fa-envelope prefix grey-text"></i>
@@ -38,10 +35,7 @@
             <div class="md-form mb-4">
                 <i class="fas fa-lock prefix grey-text"></i>
                 <label data-error="wrong" data-success="right" for="regForm-pass">Password</label>
-                <input type="password" id="regForm-pass" class="form-control validate" name="password" patter="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*20" required> 
-                <div class="invalid-feedback">
-                    Valid password cannot exceed 20 characters and can only contain letters and numbers.
-                </div>
+                <input type="password" id="regForm-pass" class="form-control validate" name="password" required> 
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button type="submit" class="btn btn-deep-orange">Sign up</button>
@@ -54,7 +48,7 @@
 
 <div class="modal fade" id="modalForm2" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content modal-backgroud">
           <div class="modal-header text-center">
             <h4 class="modal-title w-100 font-weight-bold">Log In</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
