@@ -26,6 +26,10 @@ const marker = new mapboxgl.Marker({
     draggable: true
 })
 
+// get current time and set time slider
+const currentHour = new Date().getHours();
+setSlider(currentHour);
+
 // initialize tooltips
 $(() => {
     $('[data-toggle="tooltip"]').tooltip()
@@ -142,7 +146,8 @@ $('#get-start').on('click', () => {
 // load data and base map
 map.on('load', function(){
 
-    $.getJSON('/api/incidents', response => {
+
+    $.getJSON('/api/incidents/' + currentHour, response => {
         map.addSource('crimes', {
         type: 'geojson',
         data: response,
@@ -539,6 +544,19 @@ function removeRoute () {
         return;
     }
 }
+
+// set time slider
+function setSlider(hour) {
+    if (hour > 11) {
+        $('input:radio[name="toggle_option"][value="' + (hour - 12) + '"]').prop('checked',true);
+        $('input:radio[name="ampm"][value="pm"]').prop('checked',true);
+    }
+    else {
+        $('input:radio[name="toggle_option"][value="' + 5 + '"]').prop('checked',true);
+        $('input:radio[name="ampm"][value="am"]').prop('checked',true);     
+    }
+}
+
 
 // add create, update, or delete actions
 map.on('draw.create', updateRoute);

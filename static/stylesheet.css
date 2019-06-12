@@ -129,10 +129,23 @@
   left: 0;
 }
 
-.modal-content.modal-background {
-  background-image: url(img/modalform.jpg);
-  background-repeat: no-repeat;
+.modal-background1 {
+  background-image: url(/static/img/modalform1.jpg);
+  background-size: cover;
+  color: whitesmoke;
 }
+/* 
+.modal-background2 {
+  background-image: url(/static/img/modalform2.jpg);
+  background-size: cover;
+  color: whitesmoke;
+} */
+
+
+.close {
+  color: whitesmoke;
+}
+
 
 .buttons {
   display: inline-flex;

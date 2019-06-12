@@ -124,11 +124,10 @@ def del_route(del_id):
 
     return redirect('/user')
 
-@app.route('/api/incidents', methods=["GET"])
-def get_current_crimes():
+@app.route('/api/incidents/<hour>', methods=["GET"])
+def get_current_crimes(hour):
     """Given hour, return json of crimes that happened within the hour."""
 
-    hour = datetime.now().hour
     result = db.session.query(Incident.incident_category, Incident.incident_code, Incident.wkb_geometry.ST_AsGeoJSON()).filter(extract('hour', Incident.incident_time) == hour).all()
 
     feature_collection = []
