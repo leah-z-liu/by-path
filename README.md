@@ -13,12 +13,12 @@ ByPath is a navigation app that displays an interactive San Francisco crime heat
 </p>
 
 ## Built With
-- [Bootstrap] (https://getbootstrap.com/)
+- [Bootstrap](https://getbootstrap.com/)
 - [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/overview/) - Used to display and render the map
 - [Python3](https://www.python.org/downloads/)
 - [Flask](http://flask.pocoo.org/) - The web framework used
 - [PostgreSQL](https://www.postgresql.org/download/) and [PostGIS](https://postgis.net/install/)
-- [SQLAlchemy] (https://www.sqlalchemy.org/)
+- [SQLAlchemy](https://www.sqlalchemy.org/)
 
 
 ## Dataset
