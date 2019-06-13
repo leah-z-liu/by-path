@@ -149,11 +149,9 @@ def get_current_crimes(hour):
 
     return jsonify(geojson_result)
 
-@app.route('/api/bufferarea/<route>', methods=["GET"])
-def get_buffered_area(route):
+@app.route('/api/bufferarea/<route>/<hour>', methods=["GET"])
+def get_buffered_area(route, hour):
     """Given a linestring of a route, return a buffer area."""
-
-    hour = datetime.now().hour
 
     process_route = 'LINESTRING(' + route + ')'
 

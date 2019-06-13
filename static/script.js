@@ -5,7 +5,7 @@ const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/leahliu779/cjwsj480y555v1cqu6pxp0647',
   center: [-122.4194, 37.7749],
-  zoom: 11
+  zoom: 13
 });
 
 // add search tool plugins
@@ -26,9 +26,6 @@ const marker = new mapboxgl.Marker({
     draggable: true
 })
 
-// get current time and set time slider
-const currentHour = new Date().getHours();
-setSlider(currentHour);
 
 // initialize tooltips
 $(() => {
@@ -68,7 +65,6 @@ const draw = new MapboxDraw({
         trash: true
     },
     styles: [
-        // ACTIVE (being drawn)
         // line stroke
             {
             "id": "gl-draw-line",
@@ -145,12 +141,19 @@ $('#get-start').on('click', () => {
 
 // load data and base map
 map.on('load', function(){
-
+    // get current time and set time slider
+    const currentHour = new Date().getHours();
+    setSlider(currentHour);
 
     $.getJSON('/api/incidents/' + currentHour, response => {
-        map.addSource('crimes', {
+        addHeatmap(response);
+    })
+})
+
+function addHeatmap(source) {
+    map.addSource('crimes', {
         type: 'geojson',
-        data: response,
+        data: source,
         });
 
         // add heatmap layer
@@ -169,7 +172,7 @@ map.on('load', function(){
                     ["linear"],
                     ["get", "incident_code"],
                     0, 0,
-                    30, 5
+                    30, 3
                 ],
                 // increase intensity as zoom level increases
                 'heatmap-intensity': {
@@ -206,7 +209,7 @@ map.on('load', function(){
                 },
             }
         }, 'waterway-label');
-
+    
         // add the circle layer
         map.addLayer({
             id: 'crimes-point',
@@ -249,20 +252,44 @@ map.on('load', function(){
         map.on('mouseenter', 'crimes-point', (e) => {
             map.getCanvas().style.cursor = 'pointer';
             popup.setLngLat(e.features[0].geometry.coordinates)
-                 .setHTML('<b>Incident Category:</b> ' + e.features[0].properties.incident_category)
-                 .addTo(map);
+                    .setHTML('<b>Incident Category:</b> ' + e.features[0].properties.incident_category)
+                    .addTo(map);
         });
         
         map.on('mouseleave', 'crimes-point', () => {
             map.getCanvas().style.cursor = '';
             popup.remove();
         })
-    })
-})
+    
+}
+
+function getSliderTime() {
+    const ampm = $("input[name='ampm']:checked").val();
+    let hour = parseInt($("input[name='toggle_option']:checked").val());
+    if (ampm === 'pm') {
+        hour += 12;
+    }
+    return hour;
+}
 
 // get direction on click
 $('#get-direction').on('click', () => {
-    removeRoute();
+
+    //check if user changes time filter
+    const sliderTime = getSliderTime();
+    const currentHour = new Date().getHours();
+    if (sliderTime !== currentHour) {
+        map.removeLayer('crimes-heat');
+        map.removeLayer('crimes-point');
+        map.removeSource('crimes');
+        $.getJSON('/api/incidents/' + sliderTime, response => {
+            addHeatmap(response);
+            map.setLayoutProperty('crimes-heat', 'visibility', 'none');
+        })
+    }
+
+    $('#get-direction').hide();
+    $('#get-start').hide();
     const startCoords = $('#hiddenInfo').data('start');
     const endCoords = $('#hiddenInfo').data('destination');
     const route = [startCoords, endCoords].join(';');
@@ -271,6 +298,9 @@ $('#get-direction').on('click', () => {
     } else {
         $('#clear-route').show();
         getMatch(route);
+        $('input:radio').change(() => {
+            $('#get-direction').show();
+        }) 
     }
 })
 
@@ -278,9 +308,10 @@ $('#get-direction').on('click', () => {
 // remove route when click remove route button
 $('#clear-route').on('click', removeRoute);
 
-// use the coordinates you just drew to make your directions request
+// use the drawn route to make directions request
 function updateRoute() {
     removeRoute(); // overwrite any existing layers
+    $('#clear-route').show();
     var data = draw.getAll();
     var lastFeature = data.features.length - 1;
     var coords = data.features[lastFeature].geometry.coordinates;
@@ -325,13 +356,25 @@ function getMatch(e) {
 }
 
 function getBufferArea(linestring) {
+
+    const sliderTime = getSliderTime();
+    const currentHour = new Date().getHours();
+    let checkedTime;
+    if (sliderTime !== currentHour) {
+        checkedTime = sliderTime;
+    } else {
+        checkedTime = currentHour;
+    }
+
     let new_arr = [];
     for (let coord of linestring) {
         new_arr.push(coord.join(' '));
     }
     const route = new_arr.join(','); 
     
-    map.setLayoutProperty('crimes-heat', 'visibility', 'none');
+    if (map.getLayer('crimes-heat')) {
+        map.setLayoutProperty('crimes-heat', 'visibility', 'none');
+    };
 
     // remove any previously loaded buffer area 
     if (map.getSource('buffer')){
@@ -339,7 +382,7 @@ function getBufferArea(linestring) {
         map.removeSource('buffer');
     }
 
-    $.getJSON('/api/bufferarea/' + route, response => { 
+    $.getJSON('/api/bufferarea/' + route + '/' + checkedTime, response => { 
             map.addSource('buffer', {
             type: 'geojson',
             data: response,
@@ -396,10 +439,15 @@ function getBufferArea(linestring) {
             }, 'waterway-label');
     
             const distance = parseFloat($('#hiddenInfo').data('distance'));
-            const vcPerMi = response['violent_crime_count'] / distance;            
-            if (vcPerMi >= 10) {
+            const vcPerMi = response['violent_crime_count'] / distance;   
+            const start = $('#hiddenInfo').data('start');         
+            if (vcPerMi >= 10 && start) {
                 showCrimeScore(response['violent_crime_count']);
+            } else {
+                $('#violent-crime-count').html('Your route has less than 10 violent crimes per mile.');
+                $('#violent-crime-count').show();
             }
+
     })
 }
 
@@ -410,6 +458,9 @@ function showCrimeScore(crimeScore) {
     $('#violent-crime-count').html(crimeScore + ' violent crime reports');
     $('#violent-crime-count').show();
     $('#get-alt').show();
+    if ($('.info-box').css("background-image") !== "linear-gradient(45deg, rgb(69, 150, 66) 31%, rgb(75, 172, 72) 46%, rgb(57, 119, 55) 92%)") {
+        $('.info-box').css("background-image", "linear-gradient(45deg, rgb(154, 30, 32) 0%, rgb(202, 32, 46) 36%, rgb(216, 42, 59) 42%, rgb(216, 42, 59) 45%, rgb(232, 126, 138) 100%)");
+    }
 }
 
 //get alternative route
@@ -441,8 +492,9 @@ function getSaferRoute(arr, score) {
             map.removeSource('route');
             // remove current navigation instruction
             $('.navigation').text('');
+            $('.info-box').css("background-image", "linear-gradient(45deg, rgb(69, 150, 66) 31%, rgb(75, 172, 72) 46%, rgb(57, 119, 55) 92%)");
             getMatch(response[0]);
-            $('#violent-crime-count').html(response[1] + ' violent crime reports');
+            $('#violent-crime-count').html(response[1] + ' violent crime reports');  
         }    
     })
 }
@@ -451,9 +503,11 @@ function getSaferRoute(arr, score) {
 function addRoute (coords) {
 // check if the route is already loaded
     if (map.getSource('route')) {
-        map.removeLayer('route')
-        map.removeSource('route')
+        map.removeLayer('route');
+        map.removeSource('route');
+        $('.navigation').text('');
     }
+
     map.addLayer({
     "id": "route",
     "type": "line",
@@ -532,6 +586,7 @@ function removeRoute () {
         map.removeSource('buffer');
         $('#clear-route').hide();
         $('.info-box').hide();
+        $('.navigation').text('');
         $('.navigation').hide();
         $('#violent-crime-count').hide();
         $('#get-alt').hide();
@@ -552,7 +607,7 @@ function setSlider(hour) {
         $('input:radio[name="ampm"][value="pm"]').prop('checked',true);
     }
     else {
-        $('input:radio[name="toggle_option"][value="' + 5 + '"]').prop('checked',true);
+        $('input:radio[name="toggle_option"][value="' + hour + '"]').prop('checked',true);
         $('input:radio[name="ampm"][value="am"]').prop('checked',true);     
     }
 }
