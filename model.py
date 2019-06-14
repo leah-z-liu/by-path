@@ -90,7 +90,7 @@ class Route(db.Model):
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://@localhost:5433/bypath'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///bypath?host=localhost&port=5433'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
