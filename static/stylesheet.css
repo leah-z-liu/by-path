@@ -87,7 +87,7 @@
 }
 
 .info-box {
-  width: 150px;
+  width: 250px;
   position: absolute;
   z-index: 2;
   top: 50px;
@@ -196,6 +196,7 @@
   background-color: #8483799c;
   border-color: #ffffff;
   border-radius: 1rem;
+  text-align: center;
 }
 
 .clear-nav {
@@ -401,34 +402,7 @@
   left: 40px;
 }
 
-/* collapse time slider on smaller viewport */
-@media(min-width: 750px) {
-
-  .collapse.dont-collapse-sm {
-    display: inline-block;
-    height: auto !important;
-    visibility: visible;
-  }
-
-}
-
-@media(max-width: 375px) {
-
-  .toggle_wrapper {
-    display: none;
-  }
-
-  .ampm_wrapper {
-    display: none;
-  }
-
-  .control-panel{
-    top: 0;
-    right: 20px;
-  }
-
-}
-
+/* 
 .hr_btn {
   position: relative;
   color: white;
@@ -440,4 +414,59 @@
   border-radius: 50px;
   position: relative;
   height: 30px;
+}
+ */
+
+@media(min-width: 376px) {
+  #hourCollapse {
+    display: block;
+  }
+}
+
+@media(max-width: 375px) {
+
+  .toggle_wrapper {
+    display: none;
+  }
+
+  .ampm_wrapper {
+    display: none;
+  }
+  
+  .info-box {
+    display: none;
+  }
+
+  .control-panel {
+    top: 0;
+    left: 195px;
+  }
+
+  .mapboxgl-ctrl-geocoder--icon-search {
+    top: 10px;
+  }
+  
+  .mapboxgl-ctrl-geocoder--input {
+    height: 40px;
+  }
+
+  .navigation {
+    top: 600px;
+    left: 40px;
+    height: 40px;
+  }
+
+  .navbar-toggler-icon {
+    color: whitesmoke;
+  }
+
+  .navbar {
+    padding: 0.2rem;
+    width: 150px;
+  }
+
+  .alert-success {
+    left: 30%;
+    width: 50%;
+  }
 }

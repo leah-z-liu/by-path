@@ -253,8 +253,8 @@ def get_safest_route(score, url1, url2, url3, url4):
     for url, score in scores.items():
         if score == lowest:
             return jsonify([url, lowest])
-        
-    return 'None Found'
+
+    return jsonify("None found")
 
 
     
@@ -267,5 +267,5 @@ if __name__ == "__main__":
     # make sure templates, etc. are not cached in debug mode
     connect_to_db(app)
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
     app.run(port=5000, host='0.0.0.0')

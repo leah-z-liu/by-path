@@ -444,7 +444,7 @@ function getBufferArea(linestring) {
             if (vcPerMi >= 10 && start) {
                 showCrimeScore(response['violent_crime_count']);
             } else {
-                $('#violent-crime-count').html('Your route has less than 10 violent crimes per mile.');
+                $('#violent-crime-count').html('Good to go! Your route has less than 10 violent crimes per mile.');
                 $('#violent-crime-count').show();
             }
 
@@ -484,7 +484,7 @@ $('#get-alt').on('click', () => {
 
 function getSaferRoute(arr, score) {    
     $.getJSON('/api/safest/' + score + '/' + arr[0] + '/' + arr[1] + '/' + arr[2] + '/' + arr[3], response => {
-        if (response === 'None Found') {
+        if (response === "None found") {
             alert('Sorry, no safer route found.')
         } else {
             // remove current route    
@@ -575,7 +575,7 @@ $('#saveroute').on('click', () => {
 // remove the layer if it exists
 function removeRoute () {
     if (map.getSource('route')) {
-        map.setZoom(11);
+        map.setZoom(13);
         map.setLayoutProperty('crimes-heat', 'visibility', 'visible');
         end.clear();
         marker.remove();
@@ -584,6 +584,7 @@ function removeRoute () {
         map.removeSource('route');
         map.removeLayer('crimes-buffer');
         map.removeSource('buffer');
+        $(".info-box").css('background-image', 'none');
         $('#clear-route').hide();
         $('.info-box').hide();
         $('.navigation').text('');
@@ -602,11 +603,16 @@ function removeRoute () {
 
 // set time slider
 function setSlider(hour) {
-    if (hour > 11) {
+    if (hour > 12 && hour !== 24) {
         $('input:radio[name="toggle_option"][value="' + (hour - 12) + '"]').prop('checked',true);
         $('input:radio[name="ampm"][value="pm"]').prop('checked',true);
-    }
-    else {
+    } else if (hour === 12){
+        $('input:radio[name="toggle_option"][value="' + hour + '"]').prop('checked',true);
+        $('input:radio[name="ampm"][value="pm"]').prop('checked',true);
+    } else if (hour === 24) {
+        $('input:radio[name="toggle_option"][value="' + (hour - 12) + '"]').prop('checked',true);
+        $('input:radio[name="ampm"][value="am"]').prop('checked',true);
+    } else {
         $('input:radio[name="toggle_option"][value="' + hour + '"]').prop('checked',true);
         $('input:radio[name="ampm"][value="am"]').prop('checked',true);     
     }
