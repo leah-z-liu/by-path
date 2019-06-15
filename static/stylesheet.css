@@ -17,7 +17,7 @@
 
 .navbar {
   position: absolute;
-  z-index: 2;
+  z-index: 5;
   background: #1c4b57a6;
   left: 14px;
   border-radius: 4px;
@@ -149,6 +149,50 @@
   color: whitesmoke;
 } */
 
+#video-head {
+  font-size: 4rem;
+  color: whitesmoke;
+  position: relative;
+  z-index: 4;
+}
+
+.jumbotron {
+  position: relative;
+  overflow: hidden;
+  background-color:black;
+  z-index: 4;
+  margin: 0;
+}
+
+#video-wrap {
+  height: 270px;
+}
+
+#video-background {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width:100%;
+  height:100%;
+  /*  object-fit is not supported on IE  */
+  object-fit: cover;
+  opacity:0.5;
+}
+
+.jumbotron .container {
+  z-index: 4;
+  position: relative;
+  padding: 0;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 10px 30px 0 rgba(131, 131, 131, 0.19);
+}
+
+.card-text {
+  padding: 0 2rem 2rem 2rem;
+  line-height: 1.8rem;
+}
 
 .close {
   color: whitesmoke;

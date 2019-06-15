@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block menu %}
+<div class="modal fade" id="modalForm1" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-background1">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Register</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <form method="post" action="/register" class="needs-validation" name="register_form">
+            <div class="md-form mb-5">
+                <i class="fas fa-user prefix grey-text"></i>
+                <label for="regForm-name">Name</label>
+                <input type="text" id="regForm-name" class="form-control" name="username" required>
+            </div>
+            <div class="md-form mb-5">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <label data-error="wrong" data-success="right" for="regForm-email">Email</label>
+                <input type="email" id="regForm-email" class="form-control validate" name="email" required>
+            </div>
+            <div class="md-form mb-4">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <label data-error="wrong" data-success="right" for="regForm-pass">Password</label>
+                <input type="password" id="regForm-pass" class="form-control validate" name="password" required> 
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-deep-orange">Sign up</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalForm2" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-backgroud2" style="background-image: url(/static/img/modalform2.jpg);background-size: cover;color: whitesmoke;">
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold">Log In</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body mx-3">
+            <form method="get" action="/login" name="login_form">
+              <div class="md-form mb-5">
+                  <i class="fas fa-envelope prefix grey-text"></i>
+                  <label data-error="wrong" data-success="right" for="loginForm-email">Email</label>
+                  <input type="email" id="loginForm-email" class="form-control validate" name="emailLogin" required>
+              </div>
+              <div class="md-form mb-4">
+                  <i class="fas fa-lock prefix grey-text"></i>
+                  <label data-error="wrong" data-success="right" for="loginForm-pass">Password</label>
+                  <input type="password" id="loginForm-pass" class="form-control validate" name="passwordLogin" required>
+              </div>
+              <div class="modal-footer d-flex justify-content-center">
+                  <button type="submit" class="btn">Login</button>
+              </div>
+            </form>
+          </div>
+      </div>
+        
+    </div>
+    
+</div>
+{% endblock %}
+
+{% block navlinks %}
+{% if current_user.is_authenticated %}
+<li class="nav-item">
+<a class="nav-link" href="/user">Favorite Route</a>
+</li>
+<li class="nav-item">   
+<a class="nav-link" href="/logout">Log Out</a>
+</li>
+{% else %}
+<li class="nav-item">
+<a class="nav-link" href="" data-toggle="modal" data-target="#modalForm1">Register</a>
+</li>
+<li class="nav-item">   
+<a class="nav-link" href="" data-toggle="modal" data-target="#modalForm2">Log In</a>
+</li>
+{% endif %}
+{% endblock %}
+
+{% block mapcontent %}
+<div class="jumbotron jumbotron-fluid">
+  <div id="video-wrap">
+    <video id="video-background" preload muted autoplay loop>
+      <source src="/static/img/aboutvideo.mp4" type="video/mp4">
+    </video>
+  </div>
+    
+  <div class="container">
+    <p id="video-head">Learn more about ByPath</p>
+  </div>
+</div>
+
+<div class="card-group">
+    <div class="card text-white bg-dark mb-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">About the data</h5>
+        <p class="card-text">We use San Franciso <a href="https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783">Police Department Incident Reports (2018 to Present)</a> to get the crime data.</p>
+      </div>
+    </div>
+    <div class="card text-white bg-dark mb-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">About getting a safer path</h5>
+        <p class="card-text">Behind the scene, we're comparing 4 more paths alongside the original route to try and find the one with the least amount of violent crimes. This doesn't always work because there's no guarantee that the new paths we add are indeed safer. We're working on optimizing this feature. Stay tune!
+        </p>
+      </div>
+    </div>
+    <div class="card text-white bg-dark mb-3">
+      <div class="card-body">
+        <h5 class="card-title text-center">About the programmer</h5>
+        <p class="card-text">Leah used to be a policy researcher in Washington DC. She fell in love with programming and joined Hackbright, a women-only coding bootcamp. She loves JavaScript and python. Nowadays, she is working on more personal projects and actively looking for new software engineering opportunities.</p>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

@@ -97,6 +97,12 @@ def logout():
 
     return redirect('/')
 
+@app.route('/about')
+def about():
+    """ Display about page."""
+
+    return render_template('about.html')
+
 
 @app.route('/saveroute/<route>', methods=["POST"])
 @login_required
