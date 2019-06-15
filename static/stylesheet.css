@@ -185,14 +185,79 @@
   padding: 0;
 }
 
+.card {
+  background-color: rgb(52, 58, 64);
+}
+
+p a:hover {
+  color: whitesmoke;
+}
+
 .card:hover {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 10px 30px 0 rgba(131, 131, 131, 0.19);
+  background-color: #1e5462;
 }
 
 .card-text {
-  padding: 0 2rem 2rem 2rem;
+  padding: 0 4rem 4rem 2rem;
   line-height: 1.8rem;
 }
+
+/* style author image and intro */
+
+#author-img {
+  width: 300px;
+  height: 300px;
+  margin: 2rem;
+  border-radius: 50%;
+}
+
+.social:hover {
+  -webkit-transform: scale(1.1);
+}
+
+.social {
+  -webkit-transform: scale(0.8);
+  -webkit-transition-duration: 0.5s;
+}
+
+#github:hover {
+  color: rgb(52, 58, 64);
+}
+
+#email:hover {
+  color: rgb(155, 32, 11)
+}
+
+#loadingText {
+  background-color: #1c4b57a6;
+  color: whitesmoke;
+  padding: 1.5rem;
+  line-height: 2rem;
+  font-size: 1.3rem;
+}
+
+#loadingIcon {
+  margin: 1rem;
+}
+
+h3 {
+  margin: 3rem 0 0 0;
+  color: rgb(52, 58, 64);
+}
+
+#author-text {
+  margin: 2rem 7rem 7rem 7rem;
+  font-size: 1.2rem;
+  color: rgb(52, 58, 64);
+}
+
+@media (max-width: 375px) {
+  #author-text {
+    margin: 0.8rem;
+  }
+}
+
+
 
 .close {
   color: whitesmoke;

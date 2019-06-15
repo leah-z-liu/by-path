@@ -1,5 +1,16 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibGVhaGxpdTc3OSIsImEiOiJjanV6MnVkYW0wMTBmNGVtM2poMndwMjdnIn0.wrnrUFRy7LuvPTnzY9PcGA';
 
+// show step instructions modal on load
+
+
+
+$(window).on('load',function(){
+    $('#loadingModal').modal('show');
+        setTimeout(function () {
+            $('#loadingModal').modal('hide');
+        }, 10000);
+});
+
 
 const map = new mapboxgl.Map({
   container: 'map',

@@ -38,7 +38,10 @@
                             {% block navlinks %}
                             {% endblock %}
                             <li class="nav-item">
-                            <a class="nav-link" href="/about">About</a>
+                                <a class="nav-link" href="" data-toggle="modal" data-target="#loadingModal">How to use</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/about">About</a>
                             </li>
                         </ul>
                 </div>
@@ -66,6 +69,18 @@
     
 
     <div id="map-wrapper" class="wrapper">
+            <div id="loadingModal" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+                    <div class="modal-content" id="loadingText">
+                        <div id="loadingIcon" class="text-center"><span class="far fa-compass fa-spin fa-5x"></span></div>
+                        <br>
+                        <div>- Enter destination in the search box</div> <br>
+                        <div>- Use current location or click "Enter Start"</div> <br>
+                        <div>- Click "Go" to see your route and crime score</div> <br>
+                        <div>- You can also use the buttom left "Draw tool" to draw your path!</div> 
+                    </div>
+                </div>
+            </div>
         {% block mapcontent %}
         {% endblock %}
         {% block script %}   
