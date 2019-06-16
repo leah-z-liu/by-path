@@ -391,47 +391,47 @@ h3 {
 }
 #hour2:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 50px;
+  left: 48px;
 }
 #hour3:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 96px;
+  left: 93px;
 }
 #hour4:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 141px;
+  left: 138px;
 }
 #hour5:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 185px;
+  left: 181px;
 }
 #hour6:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 231px;
+  left: 227px;
 }
 #hour7:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 276px;
+  left: 272px;
 }
 #hour8:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 321px;
+  left: 316px;
 }
 #hour9:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 366px;
+  left: 361px;
 }
 #hour10:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 411px;
+  left: 408px;
 }
 #hour11:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 456px;
+  left: 452px;
 }
 #hour12:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 501px;
+  left: 497px;
 }
 
 /* AM/PM slider */
