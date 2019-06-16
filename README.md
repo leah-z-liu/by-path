@@ -12,6 +12,9 @@ ByPath is a navigation app that displays an interactive San Francisco crime heat
   <img alt="ByPath gif" src="https://raw.githubusercontent.com/leah-z-liu/by-path/master/static/img/bypathgif.gif" width="980px">
 </p>
 
+## Live website
+[bypath.app](https://www.bypath.app/)
+
 ## Built With
 - [Bootstrap](https://getbootstrap.com/)
 - [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/overview/) - Used to display and render the map
