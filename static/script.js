@@ -118,7 +118,7 @@ const draw = new MapboxDraw({
 // add popup 
 let popup = new mapboxgl.Popup({
     closeButton: false,
-    closeOnClick: false
+    closeOnClick: true
 });
 
 // add location control to control panel
@@ -260,18 +260,12 @@ function addHeatmap(source) {
             }
         }, 'waterway-label');
 
-        map.on('mouseenter', 'crimes-point', (e) => {
+        map.on('click', 'crimes-point', (e) => {
             map.getCanvas().style.cursor = 'pointer';
             popup.setLngLat(e.features[0].geometry.coordinates)
                     .setHTML('<b>Incident Category:</b> ' + e.features[0].properties.incident_category)
                     .addTo(map);
         });
-        
-        map.on('mouseleave', 'crimes-point', () => {
-            map.getCanvas().style.cursor = '';
-            popup.remove();
-        })
-    
 }
 
 function getSliderTime() {
