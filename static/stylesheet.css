@@ -138,16 +138,16 @@
 }
 
 .modal-background1 {
-  background-image: url(/static/img/modalform1.jpg);
+  background-image: url(http://d3bon5y7kodxz4.cloudfront.net/modalform1.jpg);
   background-size: cover;
   color: whitesmoke;
 }
-/* 
-.modal-background2 {
-  background-image: url(/static/img/modalform2.jpg);
+
+#modal-background2 {
+  background-image: url(http://d3bon5y7kodxz4.cloudfront.net/modalform2.jpg);
   background-size: cover;
   color: whitesmoke;
-} */
+}
 
 #video-head {
   font-size: 4rem;
@@ -391,47 +391,47 @@ h3 {
 }
 #hour2:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 49px;
+  left: 50px;
 }
 #hour3:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 94px;
+  left: 96px;
 }
 #hour4:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 139px;
+  left: 141px;
 }
 #hour5:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 184px;
+  left: 185px;
 }
 #hour6:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 229px;
+  left: 231px;
 }
 #hour7:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 274px;
+  left: 276px;
 }
 #hour8:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 319px;
+  left: 321px;
 }
 #hour9:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 364px;
+  left: 366px;
 }
 #hour10:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 409px;
+  left: 411px;
 }
 #hour11:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 454px;
+  left: 456px;
 }
 #hour12:checked ~ .toggle_option_slider{
   background: rgba(233, 230, 33, 0.49);
-  left: 499px;
+  left: 501px;
 }
 
 /* AM/PM slider */
@@ -483,9 +483,7 @@ h3 {
   border-radius: 50px;
   cursor: pointer;
   z-index: 4;
-  /*background: rgba(0,0,0,.1);*/
   text-align: center;
-  /*background: blue;*/ /*make it blue*/
 }
 .ampm_slider{
   width: 35px;
@@ -511,20 +509,6 @@ h3 {
   left: 40px;
 }
 
-/* 
-.hr_btn {
-  position: relative;
-  color: white;
-  background: #1c4b57a6;
-  margin: 4px auto;
-  padding: 0 !important;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-  position: relative;
-  height: 30px;
-}
- */
 
 @media(min-width: 376px) {
   #hourCollapse {
@@ -533,6 +517,14 @@ h3 {
 }
 
 @media(max-width: 375px) {
+
+  .mapboxgl-ctrl-top-left {
+    top: 200px;
+  }
+
+  .info-box {
+    left: 0;
+  }
 
   .toggle_wrapper {
     display: none;
@@ -560,7 +552,7 @@ h3 {
   }
 
   .navigation {
-    top: 600px;
+    top: 520px;
     left: 40px;
     height: 40px;
   }

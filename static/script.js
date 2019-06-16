@@ -277,8 +277,12 @@ function addHeatmap(source) {
 function getSliderTime() {
     const ampm = $("input[name='ampm']:checked").val();
     let hour = parseInt($("input[name='toggle_option']:checked").val());
-    if (ampm === 'pm') {
+    if (ampm === 'pm' && hour !== 12) {
         hour += 12;
+    } else if (ampm === 'am' && hour === 12) {
+        hour += 12;
+    } else {
+        hour = hour;
     }
     return hour;
 }
@@ -493,8 +497,9 @@ $('#get-alt').on('click', () => {
     })
 })
 
-function getSaferRoute(arr, score) {    
-    $.getJSON('/api/safest/' + score + '/' + arr[0] + '/' + arr[1] + '/' + arr[2] + '/' + arr[3], response => {
+function getSaferRoute(arr, score) {  
+    const hour = getSliderTime();  
+    $.getJSON('/api/safest/' + hour + '/' + score + '/' + arr[0] + '/' + arr[1] + '/' + arr[2] + '/' + arr[3], response => {
         if (response === "None found") {
             alert('Sorry, no safer route found.')
         } else {

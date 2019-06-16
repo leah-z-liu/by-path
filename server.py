@@ -217,13 +217,11 @@ def add_waypoints(route):
     return jsonify(result)
 
 
-@app.route('/api/safest/<score>/<url1>/<url2>/<url3>/<url4>', methods=["GET"])
-def get_safest_route(score, url1, url2, url3, url4):
+@app.route('/api/safest/<hour>/<score>/<url1>/<url2>/<url3>/<url4>', methods=["GET"])
+def get_safest_route(hour, score, url1, url2, url3, url4):
     """Given 4 alt routes, return the linestring of the routes that's the safest."""
     
     urls = [url1, url2, url3, url4]
-
-    hour = datetime.now().hour
 
     scores = {}
 
@@ -267,11 +265,5 @@ def get_safest_route(score, url1, url2, url3, url4):
 
 
 if __name__ == "__main__":
-    # We have to set debug=True here, since it has to be True at the
-    # point that we invoke the DebugToolbarExtension
-    app.debug = True
-    # make sure templates, etc. are not cached in debug mode
     connect_to_db(app)
-    # Use the DebugToolbar
-    # DebugToolbarExtension(app)
     app.run(port=5000, host='0.0.0.0')
